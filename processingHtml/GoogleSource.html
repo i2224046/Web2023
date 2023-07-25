@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>コード</title>
+
+  <!--タイトルのアイコン-->
+  <link rel="shortcut icon" href="medias/title.ico">
+
+  <!--CSS-->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/myStyle.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!--フォント-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;600&family=Noto+Serif+JP&display=swap"
+    rel="stylesheet">
+</head>
+<body>
+  <code>
+    <ol style="list-style:decimal-leading-zero outside;in-left:0;padding-left:36px;margin:0;color:#1e0955;">
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">/*</li>
+    <li>&nbsp;&nbsp;Googleロゴアニメーション</li>
+    <li>&nbsp;丸と四角を押すとそれぞれインタラクションが発生する</li>
+    <li>&nbsp;</li>
+    <li>&nbsp;丸は柔軟性があるのでいろいろな方向に飛んでいく</li>
+    <li>&nbsp;四角は固い感じなのでモールス信号</li>
+    <li>&nbsp;*/</font></li>
+    <li></li>
+    <li><font style="color:green;font-style:italic;">///////フォント系列///////</font></li>
+    <li>PFont font;</li>
+    <li>int fontS = 125;<font style="color:green;font-style:italic;">//フォントサイズ定義</font></li>
+    <li></li>
+    <li><font style="color:green;font-style:italic;">///////ボタン系列///////</font></li>
+    <li>boolean ellip = false;<font style="color:green;font-style:italic;">//booleanは false or true しか判別できない</font></li>
+    <li>boolean rec = false;</li>
+    <li>int erS = 80;<font style="color:green;font-style:italic;">//ellipとrecのサイズ</font></li>
+    <li>boolean eClick = false;<font style="color:green;font-style:italic;">//ellipクリック判定</font></li>
+    <li>boolean eClickOut = false;<font style="color:green;font-style:italic;">//ellip非クリック判定</font></li>
+    <li>boolean rClick = false;<font style="color:green;font-style:italic;">//recクリック判定</font></li>
+    <li>boolean rClickOut = false;<font style="color:green;font-style:italic;">//rec非クリック判定</font></li>
+    <li></li>
+    <li><font style="color:green;font-style:italic;">////////装飾類////////</font></li>
+    <li>int morse = 250;<font style="color:green;font-style:italic;">//モールス信号Y座標調整用</font></li>
+    <li>float radfRx = random(200, 500);<font style="color:green;font-style:italic;">//図形ランダムサイズX</font></li>
+    <li>float radfRy = random(200, 400);<font style="color:green;font-style:italic;">//図形ランダムサイズY</font></li>
+    <li></li>
+    <li><font style="color:green;font-style:italic;">////ellipを押した際のアニメーションについて////</font></li>
+    <li>boolean ellipAnime = false;</li>
+    <li></li>
+    <li>int bSize = (int)random(5, 20);</li>
+    <li>float speed = 5.0;</li>
+    <li>class Ellips {</li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//X Y座標</font></li>
+    <li>&nbsp;&nbsp;public float X, Y;</li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//X Y速度</font></li>
+    <li>&nbsp;&nbsp;public float speedX, speedY;</li>
+    <li></li>
+    <li>&nbsp;&nbsp;public Ellips(float X, float Y, float speedX, float speedY) {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">// 指定されたX,Y,speedを設定</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;this.X = X;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;this.Y = Y;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;this.speedX = speedX;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;this.speedY = speedY;</li>
+    <li>&nbsp;&nbsp;}</li>
+    <li>}</li>
+    <li>ArrayList&lt;Ellips&gt; balls = new ArrayList&lt;Ellips&gt;();</li>
+    <li>final float reaction = 0.7;</li>
+    <li>final float damp = 0.5;</li>
+    <li></li>
+    <li>void setup() {</li>
+    <li>&nbsp;&nbsp;size(854, 480);</li>
+    <li>&nbsp;&nbsp;font = createFont(<font style="color:brown;">&quot;Arial&quot;</font>, fontS);</li>
+    <li>}</li>
+    <li></li>
+    <li>void draw() {</li>
+    <li>&nbsp;&nbsp;background(200, 218, 245);</li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//textAlign(CENTER, CENTER);  //行揃え(LEFT CENTER RIGHT, BASELINE TOP CENTER BOTTOM)</font></li>
+    <li></li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//////////////背景図形//////////////</font></li>
+    <li>&nbsp;&nbsp;fill(66, 133, 244, 255/2);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;rect(0, 0, radfRx, radfRy);</li>
+    <li>&nbsp;&nbsp;fill(234, 67, 53, 255/2);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;rect(100, 500, radfRx, radfRy);</li>
+    <li>&nbsp;&nbsp;fill(251, 188, 5, 255/2);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li>&nbsp;&nbsp;rect(754, 0, radfRx, radfRy);</li>
+    <li>&nbsp;&nbsp;fill(52, 168, 83, 255/2);<font style="color:green;font-style:italic;">//緑色</font></li>
+    <li>&nbsp;&nbsp;rect(854, 500, radfRx, radfRy);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//////////////モールス・図形//////////////</font></li>
+    <li>&nbsp;&nbsp;fill(66, 133, 244, 255/16);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;rect(200-15, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+15, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+38, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;fill(234, 67, 53, 255/16);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;rect(200+85, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+115, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+145, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;fill(251, 188, 5, 255/16);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li>&nbsp;&nbsp;rect(200+200, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+230, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+260, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;fill(66, 133, 244, 255/16);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;rect(200+315, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+345, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+368, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;fill(52, 168, 83, 255/16);<font style="color:green;font-style:italic;">//緑色</font></li>
+    <li>&nbsp;&nbsp;rect(200+388, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+410, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+432, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;rect(200+447, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;fill(234, 67, 53, 255/16);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;rect(200+475, morse, 10, 10);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//////////////googleの文字と図形//////////////</font></li>
+    <li>&nbsp;&nbsp;textFont(font, fontS);</li>
+    <li>&nbsp;&nbsp;fill(66, 133, 244);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;text(<font style="color:brown;">&quot;G&quot;</font>, 160, height/2+45);</li>
+    <li>&nbsp;&nbsp;fill(234, 67, 53);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;ellipse(width/2-100, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;fill(251, 188, 5);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li>&nbsp;&nbsp;rect(width/2+15, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;fill(66, 133, 244);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;text(<font style="color:brown;">&quot;g&quot;</font>, 500, height/2+45);</li>
+    <li>&nbsp;&nbsp;fill(52, 168, 83);<font style="color:green;font-style:italic;">//緑色</font></li>
+    <li>&nbsp;&nbsp;text(<font style="color:brown;">&quot;l&quot;</font>, 580, height/2+45);</li>
+    <li>&nbsp;&nbsp;fill(234, 67, 53);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;text(<font style="color:brown;">&quot;e&quot;</font>, 620, height/2+45);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//////////////押すと出る玉//////////////</font></li>
+    <li>&nbsp;&nbsp;if (ellipAnime) {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;float initSpeedX = random(-speed*5, speed*5);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;float initSpeedY = random(-speed*5, speed*5);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;balls.add(new Ellips(mouseX, mouseY, initSpeedX, initSpeedY));</li>
+    <li>&nbsp;&nbsp;}</li>
+    <li>&nbsp;&nbsp;for (int i = balls.size() -1; i &gt;= 0; i--) {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">// ボールデータを一覧から取得</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;Ellips ball = balls.get(i);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">// ボールを描画</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ellipse(ball.X, ball.Y, bSize, bSize);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">// スピードに加速度を加算</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ball.speedX += random(-speed, speed);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ball.speedY += random(-speed, speed);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ball.X += ball.speedX / 5;<font style="color:green;font-style:italic;">// X座標</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ball.Y += ball.speedY / 5;<font style="color:green;font-style:italic;">// Y座標</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;if (ball.X &gt; width || ball.X &lt; 0) ball.speedX = -ball.speedX;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;if (ball.Y &gt; height) {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ball.speedY *= -reaction;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ball.speedX *= damp;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+    <li>&nbsp;&nbsp;}</li>
+    <li></li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">//////////////マウスで触れる場所//////////////</font></li>
+    <li>&nbsp;&nbsp;rectMode(CENTER);</li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">///////丸のif文///////</font></li>
+    <li>&nbsp;&nbsp;{<font style="color:green;font-style:italic;">//if文 = 範囲内ならellipはtrue、外ならfalse</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;if (mouseX &gt; width/2-erS/2-100 &amp;&amp; mouseY &gt; height/2-erS/2 &amp;&amp; mouseX &lt; width/2+erS/2-100 &amp;&amp; mouseY &lt; height/2+erS/2) {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ellip = true;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ellip = false;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;stroke(0);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;strokeWeight(20);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;noFill();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;if (eClick == true) {<font style="color:green;font-style:italic;">//クリック</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stroke(234, 67, 53);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else if (eClickOut ==true) {<font style="color:green;font-style:italic;">//別場所クリック</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noFill();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else if (ellip == true) {<font style="color:green;font-style:italic;">//ホバー</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stroke(234, 67, 53, 255/2);<font style="color:green;font-style:italic;">//半透明赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else {<font style="color:green;font-style:italic;">//非ホバー</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ellipse(width/2-100, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;}</li>
+    <li></li>
+    <li>&nbsp;&nbsp;<font style="color:green;font-style:italic;">///////四角のif文///////</font></li>
+    <li>&nbsp;&nbsp;{<font style="color:green;font-style:italic;">//if文 = 範囲内ならrecはtrue、外ならfalse</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;if (mouseX &gt; width/2-erS/2+15 &amp;&amp; mouseY &gt; height/2-erS/2 &amp;&amp; mouseX &lt; width/2+erS/2+15 &amp;&amp; mouseY &lt; height/2+erS/2) {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rec = true;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else {</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rec = false;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;stroke(0);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;strokeWeight(20);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;noFill();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;if (rClick == true) {<font style="color:green;font-style:italic;">//クリック（黒）</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();<font style="color:green;font-style:italic;">//背景色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(29, 59, 108, 200);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(0, 0, width*2, height*2);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//名前//</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textFont(font, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(200, 218, 245);<font style="color:green;font-style:italic;">//色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;i 2 2 2 4 0 4 6   2 0 2 2 - 2 0 2 3&quot;</font>, 365, 400);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//文字//</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textFont(font, fontS);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244, 255/16);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;G&quot;</font>, 160, height/2+45);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();<font style="color:green;font-style:italic;">//円形赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53, 255/16);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ellipse(width/2-100, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stroke(251, 188, 5, 255/32);<font style="color:green;font-style:italic;">//四角黄色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(251, 188, 5, 255/16);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(width/2+15, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244, 255/16);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;g&quot;</font>, 500, height/2+45);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(52, 168, 83, 255/16);<font style="color:green;font-style:italic;">//緑色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;l&quot;</font>, 580, height/2+45);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53, 255/16);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;e&quot;</font>, 620, height/2+45);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">////モールス・図形////</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200-15, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+15, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+38, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+85, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+115, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+145, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(251, 188, 5);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+200, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+230, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+260, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+315, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+345, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+368, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(52, 168, 83);<font style="color:green;font-style:italic;">//緑色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+388, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+410, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+432, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+447, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+475, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(251, 188, 5);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else if (rClickOut ==true) {<font style="color:green;font-style:italic;">//別場所クリック</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noFill();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else if (rec == true) {<font style="color:green;font-style:italic;">//ホバー（灰色）</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();<font style="color:green;font-style:italic;">//背景色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(29, 59, 108, 255/2);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(0, 0, width*2, height*2);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//名前//</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textFont(font, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(200, 218, 245);<font style="color:green;font-style:italic;">//色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;i 2 2 2 4 0 4 6   2 0 2 2 - 2 0 2 3&quot;</font>, 365, 400);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">////モールス////</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244, 255/2);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200-15, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+15, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+38, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53, 255/2);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+85, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+115, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+145, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(251, 188, 5, 255/2);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+200, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+230, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+260, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244, 255/2);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+315, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+345, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+368, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(52, 168, 83, 255/2);<font style="color:green;font-style:italic;">//緑色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+388, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+410, morse, 25, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+432, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+447, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53, 255/2);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(200+475, morse, 10, 10);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(251, 188, 5);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//文字・図形//</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textFont(font, fontS);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;G&quot;</font>, 160, height/2+45);</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();<font style="color:green;font-style:italic;">//円形赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ellipse(width/2-100, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stroke(251, 188, 5, 255/2);<font style="color:green;font-style:italic;">//四角黄色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(251, 188, 5);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(width/2+15, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();</li>
+    <li></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(66, 133, 244);<font style="color:green;font-style:italic;">//青色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;g&quot;</font>, 500, height/2+45);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(52, 168, 83);<font style="color:green;font-style:italic;">//緑色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;l&quot;</font>, 580, height/2+45);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(234, 67, 53);<font style="color:green;font-style:italic;">//赤色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text(<font style="color:brown;">&quot;e&quot;</font>, 620, height/2+45);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fill(251, 188, 5);<font style="color:green;font-style:italic;">//黄色</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect(width/2+15, height/2, erS, erS);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;} else {<font style="color:green;font-style:italic;">//非ホバー</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;noStroke();</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+    <li>&nbsp;&nbsp;}</li>
+    <li>}</li>
+    <li></li>
+    <li>void mousePressed() {<font style="color:green;font-style:italic;">//マウスを押したら</font></li>
+    <li>&nbsp;&nbsp;if (ellip == true) {<font style="color:green;font-style:italic;">//true（枠内）なら押したことに</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;eClick = true;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;eClickOut = false;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;println(<font style="color:brown;">&quot;E clicked&quot;</font>);</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ellipAnime = true;</li>
+    <li>&nbsp;&nbsp;} else {<font style="color:green;font-style:italic;">//false（枠外）なら押してないことに</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;eClick = false;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;eClickOut = true;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;ellipAnime = false;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;println(<font style="color:brown;">&quot;not E clicked&quot;</font>);</li>
+    <li>&nbsp;&nbsp;}</li>
+    <li></li>
+    <li>&nbsp;&nbsp;if (rec == true) {<font style="color:green;font-style:italic;">//true（枠内）なら押したことに</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;rClick = true;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;rClickOut = false;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;println(<font style="color:brown;">&quot;R clicked&quot;</font>);</li>
+    <li>&nbsp;&nbsp;} else {<font style="color:green;font-style:italic;">//false（枠外）なら押してないことに</font></li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;rClick = false;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;rClickOut = true;</li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;println(<font style="color:brown;">&quot;not R clicked&quot;</font>);</li>
+    <li>&nbsp;&nbsp;}</li>
+    <li>}</li>
+    <li></li>
+    <li>void mouseReleased() {<font style="color:green;font-style:italic;">//マウスを離したら</font></li>
+    <li>&nbsp;&nbsp;eClick = false;</li>
+    <li>&nbsp;&nbsp;eClickOut = false;</li>
+    <li>&nbsp;&nbsp;ellipAnime = false;</li>
+    <li>&nbsp;&nbsp;rClick = false;</li>
+    <li>&nbsp;&nbsp;rClickOut = false;</li>
+    <li>}</li>
+    </ol></code>  <!--JS-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/scroll.js"></script>
+</body>
+
+</html>

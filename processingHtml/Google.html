@@ -1,0 +1,332 @@
+<html lang="ja">
+
+<head>
+    <title>Google</title>
+</head>
+<body>
+<script src="processing.js"></script>
+<script type="text/processing" data-processing-target="processing-canvas">
+ 
+  /*
+  Googleロゴアニメーション
+ 丸と四角を押すとそれぞれインタラクションが発生する
+ 
+ 丸は柔軟性があるのでいろいろな方向に飛んでいく
+ 四角は固い感じなのでモールス信号
+ */
+
+///////フォント系列///////
+PFont font;
+int fontS = 125;//フォントサイズ定義
+
+///////ボタン系列///////
+boolean ellip = false;//booleanは false or true しか判別できない
+boolean rec = false;
+int erS = 80;//ellipとrecのサイズ
+boolean eClick = false;//ellipクリック判定
+boolean eClickOut = false;//ellip非クリック判定
+boolean rClick = false;//recクリック判定
+boolean rClickOut = false;//rec非クリック判定
+
+////////装飾類////////
+int morse = 250;//モールス信号Y座標調整用
+float radfRx = random(200, 500);//図形ランダムサイズX
+float radfRy = random(200, 400);//図形ランダムサイズY
+
+////ellipを押した際のアニメーションについて////
+boolean ellipAnime = false;
+
+int bSize = (int)random(5, 20);
+float speed = 5.0;
+class Ellips {
+  //X Y座標
+  public float X, Y;
+  //X Y速度
+  public float speedX, speedY;
+
+  public Ellips(float X, float Y, float speedX, float speedY) {
+    // 指定されたX,Y,speedを設定
+    this.X = X;
+    this.Y = Y;
+    this.speedX = speedX;
+    this.speedY = speedY;
+  }
+}
+ArrayList<Ellips> balls = new ArrayList<Ellips>();
+final float reaction = 0.7;
+final float damp = 0.5;
+
+void setup() {
+  size(854, 480);
+  font = createFont("Arial", fontS);
+}
+
+void draw() {
+  background(200, 218, 245);
+  //textAlign(CENTER, CENTER);  //行揃え(LEFT CENTER RIGHT, BASELINE TOP CENTER BOTTOM)
+
+  //////////////背景図形//////////////
+  fill(66, 133, 244, 255/2);//青色
+  rect(0, 0, radfRx, radfRy);
+  fill(234, 67, 53, 255/2);//赤色
+  rect(100, 500, radfRx, radfRy);
+  fill(251, 188, 5, 255/2);//黄色
+  rect(754, 0, radfRx, radfRy);
+  fill(52, 168, 83, 255/2);//緑色
+  rect(854, 500, radfRx, radfRy);
+
+  //////////////モールス・図形//////////////
+  fill(66, 133, 244, 255/16);//青色
+  rect(200-15, morse, 25, 10);
+  rect(200+15, morse, 25, 10);
+  rect(200+38, morse, 10, 10);
+  fill(234, 67, 53, 255/16);//赤色
+  rect(200+85, morse, 25, 10);
+  rect(200+115, morse, 25, 10);
+  rect(200+145, morse, 25, 10);
+  fill(251, 188, 5, 255/16);//黄色
+  rect(200+200, morse, 25, 10);
+  rect(200+230, morse, 25, 10);
+  rect(200+260, morse, 25, 10);
+  fill(66, 133, 244, 255/16);//青色
+  rect(200+315, morse, 25, 10);
+  rect(200+345, morse, 25, 10);
+  rect(200+368, morse, 10, 10);
+  fill(52, 168, 83, 255/16);//緑色
+  rect(200+388, morse, 10, 10);
+  rect(200+410, morse, 25, 10);
+  rect(200+432, morse, 10, 10);
+  rect(200+447, morse, 10, 10);
+  fill(234, 67, 53, 255/16);//赤色
+  rect(200+475, morse, 10, 10);
+
+  //////////////googleの文字と図形//////////////
+  textFont(font, fontS);
+  fill(66, 133, 244);//青色
+  text("G", 160, height/2+45);
+  fill(234, 67, 53);//赤色
+  ellipse(width/2-100, height/2, erS, erS);
+  fill(251, 188, 5);//黄色
+  rect(width/2+15, height/2, erS, erS);
+  fill(66, 133, 244);//青色
+  text("g", 500, height/2+45);
+  fill(52, 168, 83);//緑色
+  text("l", 580, height/2+45);
+  fill(234, 67, 53);//赤色
+  text("e", 620, height/2+45);
+
+  //////////////押すと出る玉//////////////
+  if (ellipAnime) {
+    float initSpeedX = random(-speed*5, speed*5);
+    float initSpeedY = random(-speed*5, speed*5);
+    balls.add(new Ellips(mouseX, mouseY, initSpeedX, initSpeedY));
+  }
+  for (int i = balls.size() -1; i >= 0; i--) {
+    // ボールデータを一覧から取得
+    Ellips ball = balls.get(i);
+    // ボールを描画
+    ellipse(ball.X, ball.Y, bSize, bSize);
+    // スピードに加速度を加算
+    ball.speedX += random(-speed, speed);
+    ball.speedY += random(-speed, speed);
+
+    ball.X += ball.speedX / 5;// X座標
+    ball.Y += ball.speedY / 5;// Y座標
+    if (ball.X > width || ball.X < 0) ball.speedX = -ball.speedX;
+    if (ball.Y > height) {
+      ball.speedY *= -reaction;
+      ball.speedX *= damp;
+    }
+  }
+
+  //////////////マウスで触れる場所//////////////
+  rectMode(CENTER);
+  ///////丸のif文///////
+  {//if文 = 範囲内ならellipはtrue、外ならfalse
+    if (mouseX > width/2-erS/2-100 && mouseY > height/2-erS/2 && mouseX < width/2+erS/2-100 && mouseY < height/2+erS/2) {
+      ellip = true;
+    } else {
+      ellip = false;
+    }
+    stroke(0);
+    strokeWeight(20);
+    noFill();
+    if (eClick == true) {//クリック
+      stroke(234, 67, 53);//赤色
+    } else if (eClickOut ==true) {//別場所クリック
+      noStroke();
+      noFill();
+    } else if (ellip == true) {//ホバー
+      stroke(234, 67, 53, 255/2);//半透明赤色
+    } else {//非ホバー
+      noStroke();
+    }
+    ellipse(width/2-100, height/2, erS, erS);
+  }
+
+  ///////四角のif文///////
+  {//if文 = 範囲内ならrecはtrue、外ならfalse
+    if (mouseX > width/2-erS/2+15 && mouseY > height/2-erS/2 && mouseX < width/2+erS/2+15 && mouseY < height/2+erS/2) {
+      rec = true;
+    } else {
+      rec = false;
+    }
+    stroke(0);
+    strokeWeight(20);
+    noFill();
+    if (rClick == true) {//クリック（黒）
+      noStroke();//背景色
+      fill(29, 59, 108, 200);
+      rect(0, 0, width*2, height*2);
+
+      //名前//
+      textFont(font, 10);
+      fill(200, 218, 245);//色
+      text("i 2 2 2 4 0 4 6   2 0 2 2 - 2 0 2 3", 365, 400);
+
+      //文字//
+      textFont(font, fontS);
+      fill(66, 133, 244, 255/16);//青色
+      text("G", 160, height/2+45);
+
+      noStroke();//円形赤色
+      fill(234, 67, 53, 255/16);
+      ellipse(width/2-100, height/2, erS, erS);
+      stroke(251, 188, 5, 255/32);//四角黄色
+      fill(251, 188, 5, 255/16);
+      rect(width/2+15, height/2, erS, erS);
+      noStroke();
+
+      fill(66, 133, 244, 255/16);//青色
+      text("g", 500, height/2+45);
+      fill(52, 168, 83, 255/16);//緑色
+      text("l", 580, height/2+45);
+      fill(234, 67, 53, 255/16);//赤色
+      text("e", 620, height/2+45);
+
+      ////モールス・図形////
+      fill(66, 133, 244);//青色
+      rect(200-15, morse, 25, 10);
+      rect(200+15, morse, 25, 10);
+      rect(200+38, morse, 10, 10);
+      fill(234, 67, 53);//赤色
+      rect(200+85, morse, 25, 10);
+      rect(200+115, morse, 25, 10);
+      rect(200+145, morse, 25, 10);
+      fill(251, 188, 5);//黄色
+      rect(200+200, morse, 25, 10);
+      rect(200+230, morse, 25, 10);
+      rect(200+260, morse, 25, 10);
+      fill(66, 133, 244);//青色
+      rect(200+315, morse, 25, 10);
+      rect(200+345, morse, 25, 10);
+      rect(200+368, morse, 10, 10);
+      fill(52, 168, 83);//緑色
+      rect(200+388, morse, 10, 10);
+      rect(200+410, morse, 25, 10);
+      rect(200+432, morse, 10, 10);
+      rect(200+447, morse, 10, 10);
+      fill(234, 67, 53);//赤色
+      rect(200+475, morse, 10, 10);
+      
+      fill(251, 188, 5);//黄色
+    } else if (rClickOut ==true) {//別場所クリック
+      noStroke();
+      noFill();
+    } else if (rec == true) {//ホバー（灰色）
+      noStroke();//背景色
+      fill(29, 59, 108, 255/2);
+      rect(0, 0, width*2, height*2);
+
+      //名前//
+      textFont(font, 10);
+      fill(200, 218, 245);//色
+      text("i 2 2 2 4 0 4 6   2 0 2 2 - 2 0 2 3", 365, 400);
+      
+      ////モールス////
+      fill(66, 133, 244, 255/2);//青色
+      rect(200-15, morse, 25, 10);
+      rect(200+15, morse, 25, 10);
+      rect(200+38, morse, 10, 10);
+      fill(234, 67, 53, 255/2);//赤色
+      rect(200+85, morse, 25, 10);
+      rect(200+115, morse, 25, 10);
+      rect(200+145, morse, 25, 10);
+      fill(251, 188, 5, 255/2);//黄色
+      rect(200+200, morse, 25, 10);
+      rect(200+230, morse, 25, 10);
+      rect(200+260, morse, 25, 10);
+      fill(66, 133, 244, 255/2);//青色
+      rect(200+315, morse, 25, 10);
+      rect(200+345, morse, 25, 10);
+      rect(200+368, morse, 10, 10);
+      fill(52, 168, 83, 255/2);//緑色
+      rect(200+388, morse, 10, 10);
+      rect(200+410, morse, 25, 10);
+      rect(200+432, morse, 10, 10);
+      rect(200+447, morse, 10, 10);
+      fill(234, 67, 53, 255/2);//赤色
+      rect(200+475, morse, 10, 10);
+      fill(251, 188, 5);//黄色
+
+      //文字・図形//
+      textFont(font, fontS);
+      fill(66, 133, 244);//青色
+      text("G", 160, height/2+45);
+
+      noStroke();//円形赤色
+      fill(234, 67, 53);
+      ellipse(width/2-100, height/2, erS, erS);
+      stroke(251, 188, 5, 255/2);//四角黄色
+      fill(251, 188, 5);
+      rect(width/2+15, height/2, erS, erS);
+      noStroke();
+
+      fill(66, 133, 244);//青色
+      text("g", 500, height/2+45);
+      fill(52, 168, 83);//緑色
+      text("l", 580, height/2+45);
+      fill(234, 67, 53);//赤色
+      text("e", 620, height/2+45);
+      fill(251, 188, 5);//黄色
+      rect(width/2+15, height/2, erS, erS);
+    } else {//非ホバー
+      noStroke();
+    }
+  }
+}
+
+void mousePressed() {//マウスを押したら
+  if (ellip == true) {//true（枠内）なら押したことに
+    eClick = true;
+    eClickOut = false;
+    println("E clicked");
+    ellipAnime = true;
+  } else {//false（枠外）なら押してないことに
+    eClick = false;
+    eClickOut = true;
+    ellipAnime = false;
+    println("not E clicked");
+  }
+
+  if (rec == true) {//true（枠内）なら押したことに
+    rClick = true;
+    rClickOut = false;
+    println("R clicked");
+  } else {//false（枠外）なら押してないことに
+    rClick = false;
+    rClickOut = true;
+    println("not R clicked");
+  }
+}
+
+void mouseReleased() {//マウスを離したら
+  eClick = false;
+  eClickOut = false;
+  ellipAnime = false;
+  rClick = false;
+  rClickOut = false;
+}</script>
+<canvas id="processing-canvas"></canvas>
+    </body>
+</html>

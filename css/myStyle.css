@@ -1,0 +1,416 @@
+/* html全体 */
+body {
+  margin: 2%;
+  padding: 0;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 200;
+  color: #1e0955;
+}
+
+/* ヘッダー */
+header {
+  text-align: center;
+  font-family: 'Noto Serif JP', serif;
+  padding: 3%;
+  color: #1e0955;
+}
+
+#title {
+  font-weight: bold;
+}
+
+#sbutitle {}
+
+#titleHome {
+  font-weight: bold;
+  color: #e2daf8;
+}
+
+#sbutitleHome {
+  color: #e2daf8;
+
+}
+
+/* メニューバー */
+nav ul.bar {
+  display: table;
+  margin: 0 auto;
+  padding: 0;
+  width: 80%;
+  text-align: center;
+  padding: 2%;
+}
+
+nav.justify-content-center {
+  display: table-cell;
+  min-width: 50px;
+}
+
+a.nav-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: #1e0955;
+  padding-bottom: 5px;
+}
+
+li.nav-item {
+  width: 200px;
+}
+
+a.nav-link:hover {
+  color: #e2daf8;
+  border-bottom: 3px solid #e2daf8;
+  transition: all 0.25s ease;
+}
+
+/* メイン */
+main {
+  color: #1e0955;
+}
+
+.container-fluid {
+  text-align: center;
+}
+
+.carousel-inner {
+  padding: 5% 10% 10% 5%
+}
+
+/* フッダー */
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: #1e0955;
+  color: #e2daf8;
+  z-index: 10;
+}
+
+footer p {
+  text-align: center;
+  font-size: 75%;
+}
+
+/* カード定義 */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cardHome {
+  background: #fff;
+  width: 400px;
+  margin: 8px;
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  transition-duration: .4s;
+  z-index: 2;
+}
+.cardHome::after {
+  background: #1e0955;
+  border-radius: 50%;
+  content: "";
+  display: block;
+  margin: auto;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: -150%;
+  right: 0;
+  width: 250%;
+  padding-top: 250%;
+  height: 0;
+  z-index: -1;
+  transform: translateY(-50%) scale(0.1);
+  transition: opacity .5s, transform 0s;
+  transition-delay: 0s, .4s;
+}
+.cardHome:hover {
+  transform: scale(1.1); /* ホバー時に1.1倍のサイズに拡大 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+  color:#b7a2ee;
+}
+.cardHome:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+  transition-delay: 0s;
+  transition: opacity .8s, transform .6s ease-in-out;
+}
+.cardDescription {
+  width: 880px;
+  margin: 2px;
+  border-radius: 8px;
+  /*縁を丸く*/
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  border: none;
+}
+
+.cardComment {
+  width: 600px;
+  margin: 2px;
+  border-radius: 8px;
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  border: none;
+  position: relative;
+  /*下固定用*/
+}
+
+.cardVideo {
+  width: 600px;
+  height: 400px;
+  margin: 2px;
+  border-radius: 8px;
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  border: none;
+}
+
+.cardImg {
+  width: 600px;
+  height: 500px;
+  margin: 2px;
+  border-radius: 8px;
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  border: none;
+}
+
+.cardSquare {
+  width: 600px;
+  height: 600px;
+  margin: 2px;
+  border-radius: 8px;
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  border: none;
+}
+
+.cardFigma {
+  width: 600px;
+  height: 940px;
+  margin: 2px;
+  border-radius: 8px;
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  border: none;
+}
+
+.cardXD {
+  width: 600px;
+  height: 600px;
+  margin: 2px;
+  border-radius: 8px;
+  padding: 16px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  border: none;
+}
+
+/* カードテキスト定義 */
+.Title {}
+
+.Dialog {}
+
+.Description {}
+
+.Use {
+  position: absolute;
+  bottom: 0;
+  font-size: 75%;
+}
+
+.cardImg {}
+
+.imgLink:hover{
+  background-color: #fff;
+}
+.homeLink{
+  color: #b7a2ee;
+}
+.homeLink:hover{
+  color: #e2daf8;
+}
+h2{
+  font-weight: 600;
+}
+
+/* YouTube動画定義 */
+iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+/*画像定義*/
+img {
+  text-align: center;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* リンク */
+a {
+  text-decoration: none;
+  color: #1e0955;
+}
+
+.forIndex {
+  text-decoration: none;
+  color: #e2daf8;
+}
+
+a:hover {
+  background: #1e0955;
+  color: #e2daf8;
+  transition: all 0.25s ease;
+}
+
+/* 上にスクロール */
+/*リンクの形状*/
+#page-top a {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  color: #1e0955;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 0.6rem;
+  transition: all 0.25s;
+}
+
+#page-top a:hover {
+  background: #1e0955;
+  color: #e2daf8;
+  transition: all 0.25s ease;
+}
+
+/*リンクを右下に固定*/
+#page-top {
+  position: fixed;
+  right: 2%;
+  bottom: 2%;
+  z-index: 2;
+  /*はじめは非表示*/
+  opacity: 0;
+  transform: translateY(100px);
+}
+
+.topLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#page-top-big {
+  padding: 8px 16px;
+  background-color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 200px;
+  text-align: center;
+}
+
+#page-top-big a {
+  color: #1e0955;
+}
+
+#page-top-big:hover {
+  background-color: #1e0955;
+  transition: all 0.25s ease;
+}
+
+#page-top-big a:hover {
+  color: #e2daf8;
+  transition: all 0.25s ease;
+}
+
+/*　上に上がる動き　*/
+#page-top.UpMove {
+  animation: UpAnime 0.5s forwards;
+}
+
+@keyframes UpAnime {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*　下に下がる動き　*/
+#page-top.DownMove {
+  animation: DownAnime 0.5s forwards;
+}
+
+@keyframes DownAnime {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(100px);
+  }
+}
+
+/* 背景動画 */
+#video-area {
+  position: fixed;
+  z-index: -1;
+  /*最背面に設定*/
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  filter: blur(5px);
+}
+
+#video {
+  /*天地中央配置*/
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /*縦横幅指定*/
+  width: 177.77777778vh;
+  /* 16:9 の幅→16 ÷ 9＝ 177.77% */
+  height: 56.25vw;
+  /* 16:9の幅 → 9 ÷ 16 = 56.25% */
+  min-height: 105%;
+  min-width: 105%;
+}
+
+/*       <!--
+          poster：動画ファイルが利用できない環境で代替表示される画像
+          webkit-playsinline：iOS 9までのSafari用インライン再生指定
+          playsinline：iOS 10以降のSafari用インライン再生指定
+          muted：音声をミュートさせる
+          autoplay：動画を自動再生させる
+          loop：動画をループさせる
+          controls：コントロールバーを表示する
+      --> */

@@ -1,0 +1,100 @@
+<html lang="ja">
+
+<head>
+    <title>蝶々</title>
+</head>
+<body>
+<script src="processing.js"></script>
+<script type="text/processing" data-processing-target="processing-canvas">
+ 
+  /*
+  「夜に溶ける蝶」
+ 背景が段々夜のビル街になっていきます。
+ マウスを押すとその時点での背景が一時停止し、蝶が描画され、好きな背景で蝶を見れます。
+ ビルは四角、ビルの光は丸。それをぼかして、蝶は二次関数の線で描画されています。
+ 
+ 反省点：
+ 最初は背景を上から下に動かして飛んでるようなアニメーションにしたかったが、蝶の上に背景が来てしまいできなかった。
+ 
+ ビルの増加速度をもっとコマ送りに落としたかったけどよくわかんなかった。
+ （fpsを変えると蝶の描画にも影響するしこれ以上秒数のほうで制御すると緩急が激しすぎる）
+*/
+
+//蝶のための定義
+float flyx = 0.0;
+float flyy;
+float flyVel = 0.01;
+float flysize = 150.0;
+
+void setup() {//最初だけ実行
+  size(400, 400);
+  background(200, 225, 250);
+  noStroke();
+  rectMode(CENTER);//基準点を中心に
+}
+void draw() {
+  //蝶本体
+  {
+    stroke(200);
+    flyx += flyVel;
+
+    //紫色の部分
+    {
+      flyy = flyx*flyx*flyx*flyx;
+      if (flyx > 1.0 || flyx < -1.0) {
+        flyVel = -flyVel;
+      }
+      stroke(183, 162, 238);//色
+      line(flyx*flysize + width/2, height/2 - flyy*flysize, width/2, height/2);//場所
+      line(flyx*flysize + width/2, height/2 + flyy*flysize, width/2, height/2);
+      flyx +=flyVel;
+    }
+
+    //赤色の部分
+    {
+      flyy = flyx*flyx;
+      if (flyx > 1.0 || flyx < -1.0) {
+        flyVel = -flyVel;
+      }
+      stroke(115, 6, 6, 255/2);//色
+      line(flyx*flysize + width/2, height/2 + flyy*flysize, width/2, height/2);
+    }
+  }
+  {
+    int ms = millis();
+    ms = ms% (150);//ビルの描画速度を落とすための秒数定義
+    noStroke();
+    {
+      if (ms <=150/2 && mousePressed == false) {//もし150/2ms >= 且つマウスがない時
+        {//ビル奥
+          fill(0, 0, 0, 32);//色
+          float billX = random( width );
+          float billSizeX = random( 25, 100 );
+          float billSizeY = random( 100, height );//サイズランダム
+          rect( billX, height, billSizeX, billSizeY );//サイズ
+        }
+        {//ビル手前
+          fill(255, 255, 255, 32);//色
+          float billX = random( width );
+          float billSizeX = random( 25, 100 );
+          float billSizeY = random( 100, height );//サイズランダム
+          rect( billX, height, billSizeX, billSizeY );//サイズ
+        }
+        {//ビルの光
+          fill(255, 255, 255, 128);//色
+          for ( int i = 0; i < 2; i++ ) {//250個の光
+            float lightX = random( width );
+            float lightY = random( 200, height );//位置ランダム
+            ellipse( lightX, lightY, 8, 8 );//サイズ
+          }
+        }
+        filter(BLUR, 1);//ぼかし
+      } else if (ms > 150/2 || mousePressed == true ) {//もし150/2ms 以上 又はマウスがある時
+        filter(BLUR, 0);//ぼかし
+      }
+    }
+  }
+}</script>
+<canvas id="processing-canvas"></canvas>
+    </body>
+</html>
