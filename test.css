@@ -1,67 +1,95 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .card {
-    width: 300px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  img {
-    width: 100%;
-    border-radius: 8px;
-  }
-  
-  h2 {
-    font-size: 24px;
-    margin-top: 16px;
-    margin-bottom: 8px;
-  }
-  
-  p {
-    font-size: 16px;
-    margin: 0;
-  }
-  .flowing-bg {
-    position: relative;
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    font-size: 16px;
-    background-color: #007bff;
-    overflow: hidden;
-    transition: background-position 0.3s ease;
-  }
-  
-  .flowing-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background-color: #ff4500;
-    transition: left 0.3s ease;
-    z-index: -1;
-  }
-  
-  .flowing-bg:hover::before {
-    left: 0;
-  }
-  
-  .flowing-bg:hover {
-    background-position: 100% 0;
-  }
-  
+.menu-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.menu-button {
+  width: 40px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.bar {
+  display: block;
+  width: 30px;
+  height: 4px;
+  background-color: #1e0955;
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.bar:nth-child(2) {
+  top: 50%;
+  left: 5px;
+}
+
+.bar:last-child {
+  top: 75%;
+}
+
+.menu-container:hover .bar:nth-child(1) {
+  transform: translateY(-200px);
+}
+
+.menu-container:hover .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-container:hover .bar:last-child {
+  transform: translateY(0px);
+}
+
+.hover-menu {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  width: 120px;
+  background-color: #e2daf8; /* メニューの色を変更 */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.menu-container:hover .hover-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.25s ease;
+}
+
+.hover-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hover-menu li {
+  padding: 10px;
+  text-align: center;
+}
+
+.hover-menu li a {
+  text-decoration: none;
+  color: #333;
+  background-color: transparent;
+  transition: color 0.2s, background-color 0.2s; /* リンクのアニメーションを追加 */
+}
+
+.hover-menu li a:hover {
+  color: #e2daf8; /* リンクのホバー時の色を変更 */
+  transition: color 0.2s, background-color 0.2s; /* リンクのアニメーションを追加 */
+}
+.hover-menu li:hover {
+  background-color: #1e0955; /* テキストの背景色を変更 */
+  transition: color 0.2s, background-color 0.2s; /* リンクのアニメーションを追加 */
+}

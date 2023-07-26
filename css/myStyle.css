@@ -14,7 +14,7 @@ header {
   padding: 3%;
   color: #1e0955;
 }
-
+/* タイトル */
 #title {
   font-weight: bold;
 }
@@ -100,10 +100,13 @@ footer p {
   flex-wrap: wrap;
   justify-content: center;
 }
-
+/* index用カード定義 */
 .cardHome {
   background: #fff;
   width: 400px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.21);
   margin: 8px;
   border: none;
   border-radius: 8px;
@@ -114,8 +117,15 @@ footer p {
   transition-duration: .4s;
   z-index: 2;
 }
+/* 背景色が暗い場所向けに文字色を調整する */
+@media (prefers-color-scheme: dark) {
+  .cardHome {
+    color: #333;
+  }
+}
+/* ホバーしたら紫色になる */
 .cardHome::after {
-  background: #1e0955;
+  background-color: rgba(30, 9, 85, 0.75);
   border-radius: 50%;
   content: "";
   display: block;
@@ -146,6 +156,21 @@ footer p {
   transition-delay: 0s;
   transition: opacity .8s, transform .6s ease-in-out;
 }
+.cardHome h2{
+  color: #e2daf8;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+.homeImg{
+  opacity: 0.9; /* 不透明度を90%に設定 */
+}
+.homeLink{
+  color: #b7a2ee;
+}
+.homeLink:hover{
+  color: #e2daf8;
+  background-color: rgba(30, 9, 85, 0.0);
+}
+/* ページ概要用カード定義 */
 .cardDescription {
   width: 880px;
   margin: 2px;
@@ -155,7 +180,7 @@ footer p {
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   border: none;
 }
-
+/* 作品概要用カード定義 */
 .cardComment {
   width: 600px;
   margin: 2px;
@@ -166,7 +191,7 @@ footer p {
   position: relative;
   /*下固定用*/
 }
-
+/* 動画用カード定義 */
 .cardVideo {
   width: 600px;
   height: 400px;
@@ -176,7 +201,7 @@ footer p {
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   border: none;
 }
-
+/* 画像用カード定義 */
 .cardImg {
   width: 600px;
   height: 500px;
@@ -186,7 +211,7 @@ footer p {
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   border: none;
 }
-
+/* 四角用カード定義 */
 .cardSquare {
   width: 600px;
   height: 600px;
@@ -196,7 +221,7 @@ footer p {
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   border: none;
 }
-
+/* Figma用カード定義 */
 .cardFigma {
   width: 600px;
   height: 940px;
@@ -206,7 +231,7 @@ footer p {
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   border: none;
 }
-
+/* XD用カード定義 */
 .cardXD {
   width: 600px;
   height: 600px;
@@ -218,28 +243,20 @@ footer p {
 }
 
 /* カードテキスト定義 */
+/* タイトル */
 .Title {}
-
+/* 作成時期 */
 .Dialog {}
-
+/* 概要 */
 .Description {}
-
+/* 使用ソフト */
 .Use {
   position: absolute;
   bottom: 0;
   font-size: 75%;
 }
-
-.cardImg {}
-
 .imgLink:hover{
-  background-color: #fff;
-}
-.homeLink{
-  color: #b7a2ee;
-}
-.homeLink:hover{
-  color: #e2daf8;
+  background-color: rgba(0, 0, 0, 0);
 }
 h2{
   font-weight: 600;
@@ -302,42 +319,27 @@ a:hover {
 }
 
 /*リンクを右下に固定*/
-#page-top {
-  position: fixed;
-  right: 2%;
-  bottom: 2%;
-  z-index: 2;
-  /*はじめは非表示*/
-  opacity: 0;
-  transform: translateY(100px);
-}
-
 .topLink {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#page-top-big {
-  padding: 8px 16px;
+#page-top {
+  padding: 2px 4px;
   background-color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 200px;
   text-align: center;
 }
 
-#page-top-big a {
+#page-top a {
   color: #1e0955;
+  width: 150px;
 }
 
-#page-top-big:hover {
-  background-color: #1e0955;
-  transition: all 0.25s ease;
-}
-
-#page-top-big a:hover {
+#page-top a:hover {
   color: #e2daf8;
   transition: all 0.25s ease;
 }
@@ -375,6 +377,74 @@ a:hover {
     transform: translateY(100px);
   }
 }
+/* 小メニュー */
+.menu-container {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+}
+
+.menu-button {
+  padding: 10px 20px;
+  background-color: rgba(30, 9, 85, 0.75);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.hover-menu {
+  background: #fff;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.21);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: .4s;
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  width: 200px;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s, transform 0.3s;
+  text-align: center; /* テキストを中央寄せにする */
+}
+
+.menu-container:hover .hover-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hover-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hover-menu li {
+  padding: 10px;
+}
+
+.hover-menu li a {
+  text-decoration: none;
+  color: #333;
+  background-color: transparent;
+  transition: all 0.25s ease;
+}
+
+.hover-menu li:hover {
+  background-color: rgba(30, 9, 85, 0.75);
+  color: rgba(226, 218, 248, 0.75);
+  transition: all 0.25s ease;
+}
+.hover-menu li a:hover {
+  color: rgba(226, 218, 248, 0.75);
+  transition: all 0.25s ease;
+}
 
 /* 背景動画 */
 #video-area {
@@ -386,7 +456,7 @@ a:hover {
   left: 0;
   bottom: 0;
   overflow: hidden;
-  filter: blur(5px);
+  filter: blur(2px);
 }
 
 #video {

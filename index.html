@@ -27,7 +27,7 @@
   <div id="splash">
     <div id="splash_logo"><img src="medias/icon.webp" alt="" class="fadeUp">
       <p>2224046</p>
-    </div><!--画像部分は適宜差し換えてください-->
+    </div>
     <!--/splash-->
   </div>
   <div id="container">
@@ -36,47 +36,53 @@
       <p id="sbutitleHome">2224046 富田修平</p>
     </header>
     <main>
+      <!--背景動画-->
       <div id="video-area">
-        <video id="video" poster="medias/3DCG.webp"
-          webkit-playsinline playsinline muted autoplay loop>
+        <video id="video" poster="medias/3DCG.webp" webkit-playsinline playsinline muted autoplay loop>
           <source src="medias/background.webm" type="video/webm">
           <p>動画を再生できる環境ではありません。</p>
         </video>
       </div>
+      <!--カード-->
       <div class="card-container">
-        <div class="cardHome">
-          <a class="homeLink" href="videos.html">
-          <img src="medias/3DCG.webp" alt="video">
+        <!--index用カード-->
+        <a class="homeLink" href="videos.html">
+          <div class="cardHome">
+            <img class="homeImg" src="medias/video.avif" alt="video">
             <h2>映像</h2>
-          </a>
-          <p>ここにカードの説明文が入ります。</p>
-        </div>
-        <div class="cardHome">
-          <a class="homeLink" href="interactive.html">
-          <img src="medias/interaction.webp" alt="interaction">
-          <h2>インタラクティブ</h2></a>
-          <p>ここにカードの説明文が入ります。</p>
-        </div>
+            <p>映像分野の作品集です。</p>
+          </div>
+        </a>
+        <a class="homeLink" href="interactive.html">
+          <div class="cardHome">
+            <img class="homeImg" src="medias/interactive.avif" alt="interaction">
+            <h2>インタラクティブ</h2>
+            <p>インタラクティブ分野の作品集です。</p>
+          </div>
+        </a>
       </div>
       <div class="card-container">
-        <div class="cardHome">
-          <a class="homeLink" href="programming.html">
-          <img src="medias/programming.webp" alt="programming">
-          <h2>プログラミング</h2></a>
-          <p>ここにカードの説明文が入ります。</p>
-        </div>
-        <div class="cardHome">
-          <a class="homeLink" href="web.html">
-          <img src="medias/web.webp" alt="web">
-          <h2>ウェブ</h2></a>
-          <p>ここにカードの説明文が入ります。</p>
-        </div>
-        <div class="cardHome">
-          <a class="homeLink" href="others.html">
-          <img src="medias/nakano2022/014.webp" alt="etc">
-          <h2>その他</h2></a>
-          <p>ここにカードの説明文が入ります。</p>
-        </div>
+        <a class="homeLink" href="programming.html">
+          <div class="cardHome">
+            <img class="homeImg" src="medias/programming.avif" alt="programming">
+            <h2>プログラミング</h2>
+            <p>プログラミング分野の作品集です。</p>
+          </div>
+        </a>
+        <a class="homeLink" href="web.html">
+          <div class="cardHome">
+            <img class="homeImg" src="medias/web.avif" alt="web">
+            <h2>ウェブ</h2>
+            <p>ウェブ分野の作品集です。</p>
+          </div>
+        </a>
+        <a class="homeLink" href="others.html">
+          <div class="cardHome">
+            <img class="homeImg" src="medias/other.avif" alt="etc">
+            <h2>その他</h2>
+            <p>そのほかです。</p>
+          </div>
+        </a>
       </div>
     </main>
     <footer>
