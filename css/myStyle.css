@@ -574,7 +574,7 @@ a:hover {
   min-height: 105%;
   min-width: 105%;
   filter: blur(4px);
-  opacity: 0.5; /* 透明度を設定（0.0から1.0の範囲で指定） */
+  opacity: 0.75; /* 透明度を設定（0.0から1.0の範囲で指定） */
 }
 
 /*       <!--
