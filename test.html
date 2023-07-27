@@ -6,17 +6,28 @@
   <link rel="stylesheet" href="test.css">
 </head>
 <body>
-  <div class="menu-container">
-    <button class="menu-button">メニュー</button>
-    <div class="hover-menu">
-      <ul>
-        <li><a href="#">アイテム1</a></li>
-        <li><a href="#">アイテム2</a></li>
-        <li><a href="#">アイテム3</a></li>
-      </ul>
-    </div>
-  </div>
 
-  <script src="script.js"></script>
+
+  <div class="slider-container">
+    <div class="slider">
+      <img src="medias/nakano2022/001.webp" alt="Image 1">
+      <img src="medias/nakano2022/002.webp" alt="Image 2">
+      <img src="medias/nakano2022/003.webp" alt="Image 3">
+      <!-- さらに追加の画像をここに追記 -->
+    </div>
+    <button class="prev-button">&lt;</button>
+    <button class="next-button">&gt;</button>
+  </div>
+  <div class="fade-in-element">
+    <h1>フェードインする要素1</h1>
+    <p>この要素はスクロールして表示される領域に入るとフェードインします。</p>
+  </div>
+  
+  <div class="fade-in-element">
+    <h1>フェードインする要素2</h1>
+    <p>この要素もスクロールして表示される領域に入るとフェードインします。</p>
+  </div>
+  
+  <script src="test.js"></script>
 </body>
 </html>
