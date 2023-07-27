@@ -333,6 +333,45 @@ img {
   width: 100%;
   border-radius: 8px;
 }
+/* スライド画像表示 */
+.slider-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slider img {
+  width: 100%;
+  height: auto;
+}
+
+.prev-button,
+.next-button {
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(226, 216, 248, 0.5);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.next-button {
+  right: 0;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: rgba(30, 9, 85, 0.5);
+  transition: all 0.25s ease;
+}
 
 /* リンク */
 a {
