@@ -101,8 +101,9 @@ footer p {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  opacity: 0;
-  transition: opacity 0.25s ease-in-out;
+/*フェード用*/
+/*  opacity: 0;
+  transition: opacity 0.25s ease-in-out;*/
 }
 
 /* index用カード定義 */
