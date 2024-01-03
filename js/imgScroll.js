@@ -1,21 +1,26 @@
-const slider = document.querySelector('.slider');
-const prevButton = document.querySelector('.prev-button');
-const nextButton = document.querySelector('.next-button');
+// クラス名を持つ要素を全て取得
+const sliderContainers = document.querySelectorAll('.slider-container');
 
-let currentIndex = 0;
+sliderContainers.forEach(container => {
+  const slider = container.querySelector('.slider');
+  const prevButton = container.querySelector('.prev-button');
+  const nextButton = container.querySelector('.next-button');
+  
+  let currentIndex = 0;
 
-prevButton.addEventListener('click', () => {
-  currentIndex = (currentIndex - 1 + slider.children.length) % slider.children.length;
-  updateSlider();
+  prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + slider.children.length) % slider.children.length;
+    updateSlider();
+  });
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % slider.children.length;
+    updateSlider();
+  });
+
+  function updateSlider() {
+    const slideWidth = slider.children[0].offsetWidth;
+    const offset = -currentIndex * slideWidth;
+    slider.style.transform = `translateX(${offset}px)`;
+  }
 });
-
-nextButton.addEventListener('click', () => {
-  currentIndex = (currentIndex + 1) % slider.children.length;
-  updateSlider();
-});
-
-function updateSlider() {
-  const slideWidth = slider.children[0].offsetWidth;
-  const offset = -currentIndex * slideWidth;
-  slider.style.transform = `translateX(${offset}px)`;
-}
